@@ -20,12 +20,12 @@ h1 {
     color: #333;
 }
 
-#search-container {
+#search-container, #canister-search-container {
     display: flex;
     margin-bottom: 20px;
 }
 
-#search-input {
+#search-input, #canister-id-input {
     flex-grow: 1;
     padding: 10px;
     font-size: 16px;
@@ -33,7 +33,7 @@ h1 {
     border-radius: 4px 0 0 4px;
 }
 
-#search-button {
+#search-button, #canister-search-button {
     padding: 10px 20px;
     font-size: 16px;
     background-color: #4CAF50;
@@ -43,7 +43,7 @@ h1 {
     cursor: pointer;
 }
 
-#search-button:hover {
+#search-button:hover, #canister-search-button:hover {
     background-color: #45a049;
 }
 

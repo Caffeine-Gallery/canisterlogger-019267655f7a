@@ -13,5 +13,6 @@ service : {
   addLog: (text) -> (Result);
   authorizeCanister: (principal) -> ();
   getLogs: (nat, nat) -> (vec LogEntry) query;
+  getLogsByCanisterId: (text) -> (vec LogEntry) query;
   searchLogs: (text) -> (vec LogEntry) query;
 }

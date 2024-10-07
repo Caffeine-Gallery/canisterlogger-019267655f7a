@@ -13,6 +13,7 @@ export interface _SERVICE {
   'addLog' : ActorMethod<[string], Result>,
   'authorizeCanister' : ActorMethod<[Principal], undefined>,
   'getLogs' : ActorMethod<[bigint, bigint], Array<LogEntry>>,
+  'getLogsByCanisterId' : ActorMethod<[string], Array<LogEntry>>,
   'searchLogs' : ActorMethod<[string], Array<LogEntry>>,
 }
 export declare const idlFactory: IDL.InterfaceFactory;

@@ -6,6 +6,8 @@ let totalLogs = 0;
 
 const searchInput = document.getElementById('search-input');
 const searchButton = document.getElementById('search-button');
+const canisterIdInput = document.getElementById('canister-id-input');
+const canisterSearchButton = document.getElementById('canister-search-button');
 const logsContainer = document.getElementById('logs-container');
 const prevPageButton = document.getElementById('prev-page');
 const nextPageButton = document.getElementById('next-page');
@@ -50,6 +52,21 @@ async function searchLogs() {
     }
 }
 
+async function getLogsByCanisterId() {
+    const canisterId = canisterIdInput.value.trim();
+    if (canisterId) {
+        try {
+            const logs = await backend.getLogsByCanisterId(canisterId);
+            displayLogs(logs);
+            updatePagination(logs.length);
+        } catch (error) {
+            console.error('Error fetching logs for canister:', error);
+        }
+    } else {
+        alert('Please enter a valid Canister ID');
+    }
+}
+
 function updatePagination(searchResultsCount) {
     if (searchResultsCount !== undefined) {
         totalLogs = searchResultsCount;
@@ -82,6 +99,13 @@ searchButton.addEventListener('click', searchLogs);
 searchInput.addEventListener('keypress', (e) => {
     if (e.key === 'Enter') {
         searchLogs();
+    }
+});
+
+canisterSearchButton.addEventListener('click', getLogsByCanisterId);
+canisterIdInput.addEventListener('keypress', (e) => {
+    if (e.key === 'Enter') {
+        getLogsByCanisterId();
     }
 });
 

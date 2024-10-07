@@ -84,6 +84,17 @@ actor LogAggregator {
         Buffer.toArray(searchResults)
     };
 
+    // New function to get logs by canister ID
+    public query func getLogsByCanisterId(canisterId: Text) : async [LogEntry] {
+        let filteredLogs = Buffer.Buffer<LogEntry>(0);
+        for (log in logs.vals()) {
+            if (log.canisterId == canisterId) {
+                filteredLogs.add(log);
+            };
+        };
+        Buffer.toArray(filteredLogs)
+    };
+
     // Function to authorize a new canister
     public shared({ caller }) func authorizeCanister(canisterId: Principal) : async () {
         assert(caller == Principal.fromActor(LogAggregator));
