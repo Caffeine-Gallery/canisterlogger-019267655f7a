@@ -80,3 +80,8 @@ h1 {
 #page-info {
     margin: 0 10px;
 }
+
+.error {
+    color: #ff0000;
+    font-weight: bold;
+}

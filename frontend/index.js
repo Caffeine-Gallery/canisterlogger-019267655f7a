@@ -20,11 +20,16 @@ async function fetchLogs(start, limit) {
         updatePagination();
     } catch (error) {
         console.error('Error fetching logs:', error);
+        displayError('Failed to fetch logs. Please try again.');
     }
 }
 
 function displayLogs(logs) {
     logsContainer.innerHTML = '';
+    if (logs.length === 0) {
+        logsContainer.innerHTML = '<p>No logs found.</p>';
+        return;
+    }
     logs.forEach(log => {
         const logElement = document.createElement('div');
         logElement.className = 'log-entry';
@@ -41,11 +46,15 @@ async function searchLogs() {
     const query = searchInput.value.trim();
     if (query) {
         try {
+            showLoading();
             const searchResults = await backend.searchLogs(query);
             displayLogs(searchResults);
             updatePagination(searchResults.length);
         } catch (error) {
             console.error('Error searching logs:', error);
+            displayError('Failed to search logs. Please try again.');
+        } finally {
+            hideLoading();
         }
     } else {
         fetchLogs((currentPage - 1) * LOGS_PER_PAGE, LOGS_PER_PAGE);
@@ -56,14 +65,20 @@ async function getLogsByCanisterId() {
     const canisterId = canisterIdInput.value.trim();
     if (canisterId) {
         try {
+            showLoading();
+            console.log('Fetching logs for canister:', canisterId);
             const logs = await backend.getLogsByCanisterId(canisterId);
+            console.log('Logs received:', logs);
             displayLogs(logs);
             updatePagination(logs.length);
         } catch (error) {
             console.error('Error fetching logs for canister:', error);
+            displayError('Failed to fetch logs for the specified canister. Please try again.');
+        } finally {
+            hideLoading();
         }
     } else {
-        alert('Please enter a valid Canister ID');
+        displayError('Please enter a valid Canister ID');
     }
 }
 
@@ -78,6 +93,18 @@ function updatePagination(searchResultsCount) {
 
     prevPageButton.disabled = currentPage === 1;
     nextPageButton.disabled = currentPage === totalPages;
+}
+
+function showLoading() {
+    logsContainer.innerHTML = '<p>Loading...</p>';
+}
+
+function hideLoading() {
+    // This function is called after displayLogs, so we don't need to clear the container here
+}
+
+function displayError(message) {
+    logsContainer.innerHTML = `<p class="error">${message}</p>`;
 }
 
 prevPageButton.addEventListener('click', () => {
@@ -111,3 +138,5 @@ canisterIdInput.addEventListener('keypress', (e) => {
 
 // Initial load
 fetchLogs(0, LOGS_PER_PAGE);
+
+console.log('JavaScript loaded and event listeners attached');
