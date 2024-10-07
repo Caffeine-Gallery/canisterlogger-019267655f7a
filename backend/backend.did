@@ -1,0 +1,17 @@
+type Result = 
+ variant {
+   err: text;
+   ok;
+ };
+type LogEntry = 
+ record {
+   canisterId: text;
+   message: text;
+   timestamp: int;
+ };
+service : {
+  addLog: (text) -> (Result);
+  authorizeCanister: (principal) -> ();
+  getLogs: (nat, nat) -> (vec LogEntry) query;
+  searchLogs: (text) -> (vec LogEntry) query;
+}

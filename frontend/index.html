@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Log Aggregator</title>
+    <link rel="stylesheet" href="index.css">
+</head>
+<body>
+    <div id="app">
+        <h1>Log Aggregator</h1>
+        <div id="search-container">
+            <input type="text" id="search-input" placeholder="Search logs...">
+            <button id="search-button">Search</button>
+        </div>
+        <div id="logs-container"></div>
+        <div id="pagination">
+            <button id="prev-page">Previous</button>
+            <span id="page-info"></span>
+            <button id="next-page">Next</button>
+        </div>
+    </div>
+    <script type="module" src="index.js"></script>
+</body>
+</html>
