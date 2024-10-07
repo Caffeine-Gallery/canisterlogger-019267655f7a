@@ -13,6 +13,7 @@ import Result "mo:base/Result";
 import Text "mo:base/Text";
 import Time "mo:base/Time";
 import Int "mo:base/Int";
+import Order "mo:base/Order";
 
 actor LogAggregator {
     // Define log entry type
@@ -84,7 +85,7 @@ actor LogAggregator {
         Buffer.toArray(searchResults)
     };
 
-    // New function to get logs by canister ID
+    // Function to get logs by canister ID, sorted by timestamp (newest first)
     public query func getLogsByCanisterId(canisterId: Text) : async [LogEntry] {
         let filteredLogs = Buffer.Buffer<LogEntry>(0);
         for (log in logs.vals()) {
@@ -92,7 +93,10 @@ actor LogAggregator {
                 filteredLogs.add(log);
             };
         };
-        Buffer.toArray(filteredLogs)
+        let sortedLogs = Array.sort(Buffer.toArray(filteredLogs), func (a: LogEntry, b: LogEntry) : Order.Order {
+            if (a.timestamp > b.timestamp) { #less } else if (a.timestamp < b.timestamp) { #greater } else { #equal }
+        });
+        sortedLogs
     };
 
     // Function to authorize a new canister
